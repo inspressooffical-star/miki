@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>로그인 · 내 명식 | 미키사주</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app member-app">
+    <header class="topbar"><div class="topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">☯</span><span>미키사주</span></a>
+      <a class="result-home-link" href="index.html">홈으로</a>
+    </div></header>
+    <main class="member-main" data-member-app>
+      <section class="member-intro"><span class="result-eyebrow">나만의 사주를 안전하게 보관해</span><h1>내 명식 보관함</h1><p>로그인하면 등록한 명식을 저장하고, 다음에도 이어서 볼 수 있어.</p></section>
+      <p class="member-message" id="member-message" role="status" aria-live="polite"></p>
+      <section class="member-auth-card" id="member-auth-panel">
+        <div class="member-auth-tabs" role="tablist" aria-label="로그인 또는 회원가입">
+          <button class="member-auth-tab is-active" type="button" data-auth-mode="login" aria-selected="true">로그인</button>
+          <button class="member-auth-tab" type="button" data-auth-mode="signup" aria-selected="false">회원가입</button>
+        </div>
+        <form id="member-auth-form">
+          <label class="member-field"><span>이메일</span><input id="member-email" type="email" autocomplete="email" required></label>
+          <label class="member-field"><span>비밀번호</span><input id="member-password" type="password" minlength="8" autocomplete="current-password" required><small>8자 이상 입력해줘.</small></label>
+          <button class="primary-button member-submit" type="submit" id="member-auth-submit">로그인</button>
+        </form>
+      </section>
+      <section id="member-account-panel" hidden>
+        <div class="member-account-heading">
+          <div><span class="mini-kicker" id="member-email-label"></span><h2>저장된 명식</h2></div>
+          <button class="secondary-button" id="member-signout" type="button">로그아웃</button>
+        </div>
+        <div id="member-profile-list" class="member-profile-list"></div>
+        <div class="member-actions">
+          <button class="primary-button" id="member-add-profile" type="button">명식 등록하기 <span aria-hidden="true">＋</span></button>
+          <a class="secondary-button" href="compatibility.html">등록한 명식으로 궁합 보기 <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+    </main>
+    <footer><div class="footer-inner"><span class="footer-brand">미키사주</span><span>등록한 명식은 내 계정에서만 볼 수 있어.</span></div></footer>
+  </div>
+  <dialog id="profile-dialog" class="profile-dialog" aria-labelledby="profile-dialog-title">
+    <form id="profile-form">
+      <div class="dialog-head"><div><span class="mini-kicker">내 계정에 저장할 명식</span><h2 id="profile-dialog-title">명식 등록하기</h2><p>성별과 태어난 정보를 입력해줘.</p></div><button class="close-button" type="button" data-close-profile aria-label="닫기">×</button></div>
+      <label class="member-field"><span>명식 이름</span><input id="profile-name" maxlength="40" placeholder="예: 나, 엄마, 친구" required></label>
+      <span class="form-label">성별</span>
+      <div class="choice-buttons profile-gender" role="group" aria-label="성별 선택">
+        <button class="choice-button is-selected" type="button" data-gender="female" aria-pressed="true">여성</button>
+        <button class="choice-button" type="button" data-gender="male" aria-pressed="false">남성</button>
+        <button class="choice-button" type="button" data-gender="undisclosed" aria-pressed="false">선택 안 함</button>
+      </div>
+      <input id="profile-gender-value" type="hidden" value="female">
+      <span class="form-label">날짜 기준</span>
+      <input id="profile-calendar" type="hidden" value="solar">
+      <div class="choice-buttons" role="group" aria-label="양력 또는 음력 선택">
+        <button class="choice-button is-selected" type="button" data-profile-calendar="solar" aria-pressed="true">양력</button>
+        <button class="choice-button" type="button" data-profile-calendar="lunar" aria-pressed="false">음력</button>
+      </div>
+      <span class="form-label" id="profile-date-label">생년월일 <span class="optional-label">숫자로 입력해줘</span></span>
+      <div class="numeric-date-fields">
+        <label class="numeric-field"><span class="visually-hidden">태어난 해</span><input id="profile-year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="1990" required><span>년</span></label>
+        <label class="numeric-field"><span class="visually-hidden">태어난 달</span><input id="profile-month" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="01" required><span>월</span></label>
+        <label class="numeric-field"><span class="visually-hidden">태어난 날</span><input id="profile-day" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="01" required><span>일</span></label>
+      </div>
+      <label class="leap-month-option" id="profile-leap-label" for="profile-leap"><input id="profile-leap" type="checkbox"><span>윤달에 태어났어요</span></label>
+      <span class="form-label">태어난 시간 <span class="optional-label">(모르면 비워도 괜찮아)</span></span>
+      <input id="profile-time-period" type="hidden" value="am">
+      <div class="birth-time-controls">
+        <div class="choice-buttons time-period-buttons" role="group" aria-label="오전 또는 오후 선택">
+          <button class="choice-button is-selected" type="button" data-profile-period="am" aria-pressed="true">오전</button>
+          <button class="choice-button" type="button" data-profile-period="pm" aria-pressed="false">오후</button>
+        </div>
+        <div class="numeric-time-fields">
+          <label class="numeric-field"><span class="visually-hidden">태어난 시</span><input id="profile-hour" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="09"><span>시</span></label>
+          <span class="time-separator" aria-hidden="true">:</span>
+          <label class="numeric-field"><span class="visually-hidden">태어난 분</span><input id="profile-minute" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="30"><span>분</span></label>
+        </div>
+      </div>
+      <label class="leap-month-option profile-default-option"><input id="profile-default" type="checkbox"><span>기본 명식으로 설정하기</span></label>
+      <button class="primary-button dialog-submit" type="submit">내 명식 저장하기</button>
+    </form>
+  </dialog>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/saju-core.js"></script>
+  <script src="../js/member-app.js"></script>
+</body>
+</html>

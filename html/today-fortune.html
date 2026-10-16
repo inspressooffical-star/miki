@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>오늘의 기운 | 미키사주</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app service-page-app">
+    <header class="topbar"><div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="미키사주 홈"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5a8.5 8.5 0 0 1 0 17 4.25 4.25 0 0 0 0-8.5 4.25 4.25 0 0 1 0-8.5Z" fill="#D74750"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17 4.25 4.25 0 0 1 0-8.5 4.25 4.25 0 0 1 0-8.5Z" fill="#31518A"/></svg></span><span>미키사주</span></a>
+      <a class="result-home-link" href="index.html">처음으로</a>
+    </div></header>
+    <main class="service-page-main today-page-main">
+      <a class="service-back-link" href="index.html">← 처음으로 돌아가기</a>
+      <section class="service-page-intro"><span class="result-eyebrow">오늘을 조금 더 다정하게</span><h1>오늘의 기운</h1><p id="today-page-date"></p></section>
+      <section class="service-reading-hero today-fortune-hero">
+        <span class="mini-kicker">오늘의 작은 흐름</span>
+        <h2>마음의 속도를 살피며 하루를 보내봐</h2>
+        <p id="today-fortune-copy" aria-live="polite">마음이 한결 가벼워지는 하루야. 미뤄둔 안부를 먼저 건네면 기분 좋은 대화로 이어질 수 있어.</p>
+      </section>
+      <section class="service-report-card">
+        <div class="result-section-heading"><div><span class="mini-kicker">궁금한 주제를 골라봐</span><h2>오늘의 이야기</h2></div></div>
+        <div class="tabs today-fortune-tabs" role="tablist" aria-label="오늘의 운세 종류">
+          <button class="tab" type="button" role="tab" aria-selected="true" data-today-kind="overall">종합</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-today-kind="love">애정</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" data-today-kind="work">일·금전</button>
+        </div>
+        <div class="today-topic-grid">
+          <article class="service-topic-card"><span class="reading-kicker">오늘의 마음가짐</span><h3>하나씩 차분히</h3><p>급하게 모든 답을 찾기보다 지금 할 수 있는 작은 일부터 마무리해봐. 한 걸음씩 쌓는 게 마음을 편하게 해줄 거야.</p></article>
+          <article class="service-topic-card"><span class="reading-kicker">오늘의 개운 팁</span><h3>초록빛과 깊은 숨</h3><p>초록빛을 가까이하고 호흡을 고르면 생각이 한결 맑아질 수 있어. 잠깐 창밖을 바라보며 쉬어가도 좋아.</p></article>
+        </div>
+      </section>
+      <p class="service-disclaimer">오늘의 이야기는 가볍게 읽는 참고용 콘텐츠야. 정해진 미래를 예언하거나 중요한 결정을 대신하지 않아.</p>
+      <nav class="service-page-nav" aria-label="다른 페이지"><a href="member.html">내 명식 등록</a><a href="services.html">사주 서비스</a><a href="compatibility.html">사주 궁합</a></nav>
+    </main>
+    <footer><div class="footer-inner"><span class="footer-brand">미키사주</span><span>네가 너다운 하루를 만들어가도록 응원할게.</span></div></footer>
+  </div>
+  <script src="../js/today-fortune.js"></script>
+</body>
+</html>

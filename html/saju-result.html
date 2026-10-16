@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>나의 사주 풀이 | 미키사주</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app result-app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="index.html" aria-label="미키사주 홈">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5a8.5 8.5 0 0 1 0 17 4.25 4.25 0 0 0 0-8.5 4.25 4.25 0 0 1 0-8.5Z" fill="#D74750"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17 4.25 4.25 0 0 1 0-8.5 4.25 4.25 0 0 0 0-8.5Z" fill="#31518A"/></svg>
+          </span>
+          <span>미키사주</span>
+        </a>
+        <a class="result-home-link" href="index.html">처음으로 돌아가기</a>
+      </div>
+    </header>
+    <main class="result-main">
+      <section class="result-intro">
+        <span class="result-eyebrow">나를 이해하는 오래된 지혜</span>
+        <h1 id="result-title">너의 사주를 살펴볼게</h1>
+        <p id="result-subtitle">태어난 순간의 기운을 바탕으로, 편안하고 알기 쉽게 풀어봤어.</p>
+      </section>
+      <section id="result-empty" class="result-empty" hidden>
+        <div class="empty-taiji" aria-hidden="true">음양</div>
+        <h2>아직 입력한 사주 정보가 없어</h2>
+        <p>먼저 생년월일을 알려주면 네 명식과 풀이를 이곳에서 볼 수 있어.</p>
+        <a class="primary-button result-return-button" href="index.html">사주 정보 입력하러 가기</a>
+      </section>
+      <div id="result-content" hidden>
+        <section class="result-chart-card" aria-labelledby="chart-title">
+          <div class="result-section-heading">
+            <div><span class="mini-kicker">네 기둥으로 보는 타고난 기운</span><h2 id="chart-title">나의 사주 명식</h2></div>
+            <span class="result-birth-date" id="result-birth-date"></span>
+          </div>
+          <div class="result-pillars" id="result-pillars"></div>
+          <p class="chart-explainer" id="chart-explainer"></p>
+        </section>
+        <section class="day-master-card" id="day-master-card"></section>
+        <section class="result-elements-card">
+          <div class="result-section-heading">
+            <div><span class="mini-kicker">내 사주에 담긴 다섯 기운</span><h2>오행의 균형</h2></div>
+          </div>
+          <div id="result-elements"></div>
+        </section>
+        <section class="reading-section">
+          <div class="result-section-heading">
+            <div><span class="mini-kicker">친구가 들려주는 사주 이야기</span><h2>너의 사주를 자세히 풀어볼게</h2></div>
+          </div>
+          <div class="reading-grid" id="reading-grid"></div>
+        </section>
+        <p class="result-disclaimer">계산은 한국 표준시와 절기 경계를 기준으로 했어. 사주 풀이는 오랜 전통의 해석을 바탕으로 한 자기 이해와 재미를 위한 참고 자료야. 중요한 선택은 현실의 정보와 너의 판단을 함께 살펴봐.</p>
+      </div>
+    </main>
+    <footer><div class="footer-inner"><span class="footer-brand">미키사주</span><span>네가 너다운 하루를 만들어가도록 응원할게.</span></div></footer>
+  </div>
+  <script src="../js/saju-core.js" defer></script>
+  <script src="../js/saju-result.js" defer></script>
+</body>
+</html>

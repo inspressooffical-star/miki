@@ -1,0 +1,6 @@
+.env*
+!.env.example
+node_modules/
+.vercel/
+*.code-workspace
+.DS_Store

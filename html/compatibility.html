@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>사주 궁합 | 미키사주</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app member-app">
+    <header class="topbar"><div class="topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">☯</span><span>미키사주</span></a>
+      <a class="result-home-link" href="member.html">내 명식 보관함</a>
+    </div></header>
+    <main class="member-main" data-compatibility-app>
+      <a class="service-back-link" href="index.html">← 처음으로 돌아가기</a>
+      <section class="member-intro"><span class="result-eyebrow">두 명식의 기운을 나란히</span><h1>사주 궁합</h1><p>내가 등록한 명식 중 두 개를 골라 서로의 차이와 잘 맞춰갈 방법을 살펴봐.</p></section>
+      <p class="member-message" id="compatibility-message" role="status" aria-live="polite"></p>
+      <section class="member-auth-card" id="compatibility-empty" hidden><h2>로그인 후 명식을 등록해줘</h2><p>계정에 저장한 명식 두 개를 선택하면 궁합 풀이를 볼 수 있어.</p><a class="primary-button" href="member.html">로그인하고 명식 등록하기</a></section>
+      <section class="compatibility-card" id="compatibility-panel" hidden>
+        <div class="compatibility-selectors">
+          <label class="member-field"><span>첫 번째 명식</span><select id="compatibility-first" required></select></label>
+          <span class="compatibility-mark" aria-hidden="true">＋</span>
+          <label class="member-field"><span>두 번째 명식</span><select id="compatibility-second" required></select></label>
+        </div>
+        <button class="primary-button" id="compatibility-submit" type="button">두 사람의 기운 살펴보기</button>
+      </section>
+      <section id="compatibility-result" class="compatibility-result" hidden aria-live="polite"></section>
+    </main>
+    <footer><div class="footer-inner"><span class="footer-brand">미키사주</span><span>궁합은 서로를 더 잘 이해하기 위한 참고 이야기야.</span></div></footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/saju-core.js"></script>
+  <script src="../js/compatibility-core.js"></script>
+  <script src="../js/compatibility-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>토정비결 | 미키사주</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app service-page-app">
+    <header class="topbar"><div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="미키사주 홈"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5a8.5 8.5 0 0 1 0 17 4.25 4.25 0 0 0 0-8.5 4.25 4.25 0 0 1 0-8.5Z" fill="#D74750"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17 4.25 4.25 0 0 1 0-8.5 4.25 4.25 0 0 0 0-8.5Z" fill="#31518A"/></svg></span><span>미키사주</span></a>
+      <a class="result-home-link" href="index.html">처음으로 돌아가기</a>
+    </div></header>
+    <main class="service-page-main" data-service-page="tojeong">
+      <a class="service-back-link" href="index.html#services">← 사주 풀이 고르기</a>
+      <section class="service-page-intro"><span class="result-eyebrow">한 해의 흐름을 미리 살펴보기</span><h1>토정비결</h1><p>내 사주에 담긴 기운을 바탕으로 올해와 달마다의 흐름을 친구처럼 쉽게 풀어볼게.</p></section>
+      <section id="service-empty" class="result-empty"><div class="empty-taiji" aria-hidden="true">토정</div><h2>내 사주를 먼저 알려줘</h2><p>생년월일을 입력하면 너의 명식에 맞춘 한 해의 참고 풀이를 볼 수 있어.</p><a class="primary-button result-return-button" href="member.html">로그인하고 명식 등록하기</a></section>
+      <div id="service-personalized" hidden>
+        <section class="service-reading-hero"><span class="mini-kicker">너의 사주로 살펴본 올해</span><h2 id="service-year-title"></h2><p id="service-year-copy"></p></section>
+        <section class="service-report-card"><div class="result-section-heading"><div><span class="mini-kicker">한 달씩 천천히 보는 흐름</span><h2>올해의 달별 참고 풀이</h2></div></div><div class="service-month-grid" id="service-month-grid"></div></section>
+        <p class="service-disclaimer">전통 토정비결 원문 괘수 산식을 그대로 재현한 결과가 아니라, 입력한 명식과 오행을 바탕으로 만든 자기 이해용 참고 풀이야. 달 표시는 음력 기준이며 전통 월운 산식과는 달라. 중요한 선택을 운세만으로 정하지는 말아줘.</p>
+      </div>
+      <nav class="service-page-nav" aria-label="다른 사주 풀이"><a href="year-saju.html">올해의 사주</a><a href="sal-pul-i.html">살풀이</a><a href="classic-saju.html">정통사주</a></nav>
+    </main>
+    <footer><div class="footer-inner"><span class="footer-brand">미키사주</span><span>네가 너다운 하루를 만들어가도록 응원할게.</span></div></footer>
+  </div>
+  <script src="../js/saju-core.js" defer></script><script src="../js/service-page.js" defer></script>
+</body>
+</html>

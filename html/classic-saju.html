@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>정통사주 | 미키사주</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app service-page-app">
+    <header class="topbar"><div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="미키사주 홈"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5a8.5 8.5 0 0 1 0 17 4.25 4.25 0 0 0 0-8.5 4.25 4.25 0 0 1 0-8.5Z" fill="#D74750"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17 4.25 4.25 0 0 1 0-8.5 4.25 4.25 0 0 0 0-8.5Z" fill="#31518A"/></svg></span><span>미키사주</span></a>
+      <a class="result-home-link" href="index.html">처음으로 돌아가기</a>
+    </div></header>
+    <main class="service-page-main" data-service-page="classic">
+      <a class="service-back-link" href="index.html#services">← 사주 풀이 고르기</a>
+      <section class="service-page-intro"><span class="result-eyebrow">연·월·일·시, 네 기둥으로 보는 나</span><h1>정통사주</h1><p>사주 원국과 음양오행을 차근차근 펼쳐서, 타고난 성향과 일상의 선택을 함께 읽어볼게.</p></section>
+      <section id="service-empty" class="result-empty"><div class="empty-taiji" aria-hidden="true">명식</div><h2>내 사주를 먼저 알려줘</h2><p>생년월일과 태어난 시간을 입력하면 네 기둥과 오행을 자세히 풀어볼 수 있어.</p><a class="primary-button result-return-button" href="member.html">로그인하고 명식 등록하기</a></section>
+      <div id="service-personalized" hidden>
+        <section class="service-report-card"><div class="result-section-heading"><div><span class="mini-kicker">천간과 지지로 보는 나의 원국</span><h2>나의 사주 명식</h2></div><span class="result-birth-date" id="service-birth-date"></span></div><div class="result-pillars" id="service-pillars"></div><p class="chart-explainer" id="service-chart-explainer"></p></section>
+        <section class="service-reading-hero"><span class="mini-kicker">나의 중심 기운</span><h2 id="service-year-title"></h2><p id="service-year-copy"></p></section>
+        <section class="service-report-card"><div class="result-section-heading"><div><span class="mini-kicker">천간·지지에 드러난 기운</span><h2>오행의 분포</h2></div></div><div id="service-elements"></div></section>
+        <section class="service-topic-grid" id="service-topic-grid"></section>
+        <p class="service-disclaimer">명식은 한국 표준시와 절기 기준으로 계산했어. 오행 분포는 겉으로 드러난 글자만 센 참고용이야. 학파와 만세력 기준에 따라 세부 해석은 달라질 수 있어.</p>
+      </div>
+      <nav class="service-page-nav" aria-label="다른 사주 풀이"><a href="tojeong.html">토정비결</a><a href="year-saju.html">올해의 사주</a><a href="sal-pul-i.html">살풀이</a></nav>
+    </main>
+    <footer><div class="footer-inner"><span class="footer-brand">미키사주</span><span>네가 너다운 하루를 만들어가도록 응원할게.</span></div></footer>
+  </div>
+  <script src="../js/saju-core.js" defer></script><script src="../js/service-page.js" defer></script>
+</body>
+</html>
