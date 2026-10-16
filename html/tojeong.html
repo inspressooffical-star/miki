@@ -11,21 +11,65 @@
   <div class="app service-page-app">
     <header class="topbar"><div class="topbar-inner">
       <a class="brand" href="index.html" aria-label="미키사주 홈"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5a8.5 8.5 0 0 1 0 17 4.25 4.25 0 0 0 0-8.5 4.25 4.25 0 0 1 0-8.5Z" fill="#D74750"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17 4.25 4.25 0 0 1 0-8.5 4.25 4.25 0 0 0 0-8.5Z" fill="#31518A"/></svg></span><span>미키사주</span></a>
-      <a class="result-home-link" href="index.html">처음으로 돌아가기</a>
+      <nav class="top-links" aria-label="주요 메뉴"><a href="tojeong.html" aria-current="page">토정비결</a><a href="classic-saju.html">정통 사주</a><a href="sal-pul-i.html">살풀이</a><a href="compatibility.html">궁합보기</a></nav>
+      <a class="profile-button profile-link" id="home-member-link" data-site-member-link href="member.html"><span class="profile-avatar" aria-hidden="true">☘</span><span data-site-member-label>로그인</span></a>
     </div></header>
-    <main class="service-page-main" data-service-page="tojeong">
-      <a class="service-back-link" href="index.html#services">← 사주 풀이 고르기</a>
-      <section class="service-page-intro"><span class="result-eyebrow">한 해의 흐름을 미리 살펴보기</span><h1>토정비결</h1><p>내 사주에 담긴 기운을 바탕으로 올해와 달마다의 흐름을 친구처럼 쉽게 풀어볼게.</p></section>
-      <section id="service-empty" class="result-empty"><div class="empty-taiji" aria-hidden="true">토정</div><h2>내 사주를 먼저 알려줘</h2><p>생년월일을 입력하면 너의 명식에 맞춘 한 해의 참고 풀이를 볼 수 있어.</p><a class="primary-button result-return-button" href="member.html">로그인하고 명식 등록하기</a></section>
-      <div id="service-personalized" hidden>
-        <section class="service-reading-hero"><span class="mini-kicker">너의 사주로 살펴본 올해</span><h2 id="service-year-title"></h2><p id="service-year-copy"></p></section>
-        <section class="service-report-card"><div class="result-section-heading"><div><span class="mini-kicker">한 달씩 천천히 보는 흐름</span><h2>올해의 달별 참고 풀이</h2></div></div><div class="service-month-grid" id="service-month-grid"></div></section>
-        <p class="service-disclaimer">전통 토정비결 원문 괘수 산식을 그대로 재현한 결과가 아니라, 입력한 명식과 오행을 바탕으로 만든 자기 이해용 참고 풀이야. 달 표시는 음력 기준이며 전통 월운 산식과는 달라. 중요한 선택을 운세만으로 정하지는 말아줘.</p>
-      </div>
-      <nav class="service-page-nav" aria-label="다른 사주 풀이"><a href="year-saju.html">올해의 사주</a><a href="sal-pul-i.html">살풀이</a><a href="classic-saju.html">정통사주</a></nav>
+    <main class="service-page-main" id="top" data-service-page="tojeong">
+      <section class="service-page-intro"><span class="result-eyebrow">한 해의 흐름을 열두 달로 살펴보기</span><h1>토정비결</h1><p>입춘부터 이어지는 열두 절기월마다 어떤 기운이 내 일간과 만나는지, 달별로 천천히 풀어볼게.</p></section>
+      <nav class="service-tabs" aria-label="개인 사주 풀이 바꿔 보기"><ul><li><a href="tojeong.html" aria-current="page">토정비결</a></li><li><a href="classic-saju.html">정통 사주</a></li><li><a href="sal-pul-i.html">살풀이</a></li></ul></nav>
+      <section class="service-input-card" id="service-input" hidden>
+        <h2>내 사주를 알려줘</h2>
+        <p>로그인하지 않아도 바로 볼 수 있어. 입력한 정보는 이 브라우저 탭에 임시로만 보관돼.</p>
+        <form id="service-form" novalidate>
+          <label class="member-field"><span>명식 이름 <small>(선택, 저장할 때 쓰여)</small></span><input name="name" maxlength="40" placeholder="예: 나" autocomplete="off"></label>
+          <fieldset class="auth-gender"><legend class="form-label">성별</legend>
+            <div class="choice-buttons profile-gender">
+              <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="female"><span>여성</span></label>
+              <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="male"><span>남성</span></label>
+              <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="undisclosed"><span>선택 안 함</span></label>
+            </div>
+          </fieldset>
+          <p class="field-error" data-error-for="gender" role="alert" hidden></p>
+          <div id="service-birth"></div>
+          <p class="form-error" id="service-form-error" role="alert" hidden></p>
+          <button class="primary-button dialog-submit" type="submit">풀이 보기</button>
+        </form>
+      </section>
+      <section class="service-current" id="service-current" hidden></section>
+      <article class="long-report" id="service-report" hidden aria-live="polite"></article>
     </main>
     <footer><div class="footer-inner"><span class="footer-brand">미키사주</span><span>네가 너다운 하루를 만들어가도록 응원할게.</span></div></footer>
   </div>
-  <script src="../js/saju-terms.js" defer></script><script src="../js/saju-lunar.js" defer></script><script src="../js/saju-core.js" defer></script><script src="../js/service-page.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/saju-terms.js"></script>
+  <script src="../js/saju-lunar.js"></script>
+  <script src="../js/saju-core.js"></script>
+  <script src="../js/miki-common.js"></script>
+  <script src="../js/miki-account.js"></script>
+  <script src="../js/lib-stem-1.js"></script>
+  <script src="../js/lib-stem-2.js"></script>
+  <script src="../js/lib-stem-3.js"></script>
+  <script src="../js/lib-stem-4.js"></script>
+  <script src="../js/lib-stem-5.js"></script>
+  <script src="../js/lib-tengod-1.js"></script>
+  <script src="../js/lib-tengod-2.js"></script>
+  <script src="../js/lib-month-1.js"></script>
+  <script src="../js/lib-month-2.js"></script>
+  <script src="../js/lib-element.js"></script>
+  <script src="../js/lib-branch-1.js"></script>
+  <script src="../js/lib-branch-2.js"></script>
+  <script src="../js/lib-relation-1.js"></script>
+  <script src="../js/lib-relation-2.js"></script>
+  <script src="../js/lib-tojeong.js"></script>
+  <script src="../js/lib-year.js"></script>
+  <script src="../js/lib-sal.js"></script>
+  <script src="../js/lib-compat.js"></script>
+  <script src="../js/saju-analysis.js"></script>
+  <script src="../js/report-engine.js"></script>
+  <script src="../js/report-view.js"></script>
+  <script src="../js/birth-fields.js"></script>
+  <script src="../js/service-page.js"></script>
 </body>
 </html>

@@ -267,6 +267,7 @@
       termBoundary,
       timeCaution,
       monthTerm: { year: monthTerm.year, index: monthTerm.index, time: monthTerm.time },
+      birthInstant,
       pillarYear,
       dayChangedAtZi: hasTime && hour === 23,
       yearPillar,
@@ -393,8 +394,50 @@
     });
   }
 
+  // 대운: 성별(남/여)과 년간의 음양으로 순행·역행을 정하고, 태어난 시각에서 가장 가까운 절(節)까지의 시간을
+  // '3일 = 1년'으로 환산해 시작 나이를 구한다. 만 나이 기준이며 이 사이트의 계산 규칙이다.
+  function daewoon(chart, gender, nowInstant) {
+    if (gender !== "male" && gender !== "female") return null;
+    const yearYang = chart.yearPillar.stem.polarity === "양";
+    const forward = (gender === "male") === yearYang;
+    const terms = [chart.solarDate.year - 1, chart.solarDate.year, chart.solarDate.year + 1]
+      .flatMap((year) => jieTerms.map((index) => solarTerm(year, index)))
+      .sort((a, b) => a - b);
+    const target = forward
+      ? terms.find((time) => time > chart.birthInstant)
+      : [...terms].reverse().find((time) => time <= chart.birthInstant);
+    const minutes = Math.round(Math.abs(target - chart.birthInstant) / 60000);
+    let rest = minutes;
+    const years = Math.floor(rest / 4320); rest -= years * 4320;
+    const months = Math.floor(rest / 360); rest -= months * 360;
+    const days = Math.floor(rest / 12);
+    const birth = new Date(Date.UTC(chart.solarDate.year, chart.solarDate.month - 1, chart.solarDate.day));
+    const startDate = new Date(birth);
+    startDate.setUTCFullYear(startDate.getUTCFullYear() + years);
+    startDate.setUTCMonth(startDate.getUTCMonth() + months);
+    startDate.setUTCDate(startDate.getUTCDate() + days);
+    const base = chart.monthPillar;
+    const direction = forward ? 1 : -1;
+    const now = new Date((nowInstant || Date.now()) + 9 * 3600000);
+    const steps = Array.from({ length: 10 }, (_, index) => {
+      const pillar = sexagenary(base.stemIndex + direction * (index + 1), base.branchIndex + direction * (index + 1));
+      const from = new Date(startDate);
+      from.setUTCFullYear(from.getUTCFullYear() + index * 10);
+      const to = new Date(startDate);
+      to.setUTCFullYear(to.getUTCFullYear() + index * 10 + 10);
+      return { index, pillar, startAge: years + index * 10, startYear: from.getUTCFullYear(), from, to };
+    });
+    const current = steps.find((step) => step.from <= now && now < step.to) || null;
+    return {
+      forward, years, months, days, startDate, steps, current,
+      beforeStart: now < startDate,
+      approximate: !chart.hasTime
+    };
+  }
+
   window.SajuCore = Object.freeze({
     calculate,
+    daewoon,
     interpretations,
     annualPillar,
     salSigns,

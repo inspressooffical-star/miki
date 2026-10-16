@@ -46,7 +46,7 @@
       showMessage("선택한 명식을 찾지 못했어. 목록을 새로고침해줘.", "error");
       return;
     }
-    render(window.MikiCompatibility.interpret(first, second));
+    renderReport(first, second);
   });
 
   let profiles = [];
@@ -96,47 +96,24 @@
     });
   }
 
-  function render(reading) {
-    result.replaceChildren();
-    result.hidden = false;
-    result.append(make("section", "service-reading-hero"));
-    const intro = result.querySelector(".service-reading-hero");
-    intro.append(make("span", "mini-kicker", "두 사람의 일간으로 살펴본 관계"));
-    intro.append(make("h2", "", `${reading.first.profile.name} 님과 ${reading.second.profile.name} 님 · ${reading.relationship}`));
-    intro.append(make("p", "", reading.relationshipText));
+  const toInput = (profile) => ({ birthDate: profile.birth_date, calendar: profile.calendar, leapMonth: profile.leap_month, birthTime: profile.birth_time ? profile.birth_time.slice(0, 5) : "" });
 
-    const pillars = make("div", "compatibility-pillar-grid");
-    [reading.first, reading.second].forEach((person) => {
-      const card = make("article", "compatibility-person-card");
-      card.append(make("span", "reading-kicker", person.profile.name));
-      card.append(make("strong", "compatibility-person-pillar",
-        `${person.dayStem.hanja} (${person.dayStem.name})`));
-      card.append(make("p", "", person.dayStem.description));
-      pillars.append(card);
-    });
-    result.append(pillars);
-
-    const topics = make("div", "service-topic-grid compatibility-topics");
-    appendTopic(topics, "두 사람의 차이", "서로의 기운", reading.relationshipText);
-    appendTopic(topics, "함께 가진 점", "오행의 공통점", reading.balance);
-    appendTopic(topics, "대화의 힌트", "마음을 전하는 방법", reading.communication);
-    appendTopic(topics, "함께 기억할 점", "좋은 관계를 위한 제안", reading.advice);
-    result.append(topics);
-    const note = make("p", "service-disclaimer",
-      "이 풀이는 두 명식의 일간과 겉으로 드러난 오행을 바탕으로 한 전통적 참고 이야기야. 점수나 궁합의 좋고 나쁨을 단정하지 않으며, 성별을 이유로 관계를 예측하지 않아. 실제 관계는 서로의 대화와 선택이 가장 중요해.");
-    result.append(note);
-    result.scrollIntoView({ behavior: "smooth", block: "start" });
-    showMessage("", "");
+  function renderReport(first, second) {
+    try {
+      const report = window.MikiReport.buildCompat(toInput(first), toInput(second), {
+        first: { gender: first.gender, name: first.name },
+        second: { gender: second.gender, name: second.name },
+        now: new Date()
+      });
+      result.hidden = false;
+      result.className = "compatibility-result long-report";
+      window.MikiReportView.render(report, result, { prefix: "compat" });
+      showMessage("", "");
+      result.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (error) {
+      showMessage(error.message || "궁합 풀이를 만들지 못했어.", "error");
+    }
   }
-
-  function appendTopic(parent, kicker, title, text) {
-    const card = make("article", "service-topic-card");
-    card.append(make("span", "reading-kicker", kicker));
-    card.append(make("h3", "", title));
-    card.append(make("p", "", text));
-    parent.append(card);
-  }
-
   function showLoginRequired() {
     empty.hidden = false;
     panel.hidden = true;

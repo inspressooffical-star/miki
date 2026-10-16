@@ -59,6 +59,31 @@ for (let i = 0; i < 6000; i += 1) {
 }
 console.log(`무작위 명식 ${checked}건 비교`);
 
+// 2-1) 대운: 순행·역행, 시작 나이(3일=1년 환산), 첫 대운부터 8개 간지 비교
+let yunChecked = 0;
+for (let i = 0; i < 1500; i += 1) {
+  const year = 1901 + Math.floor(rand() * 199);
+  const month = 1 + Math.floor(rand() * 12);
+  const day = 1 + Math.floor(rand() * 28);
+  const hour = Math.floor(rand() * 24);
+  const minute = Math.floor(rand() * 60);
+  const gender = rand() < 0.5 ? "male" : "female";
+  const c = core.calculate({ birthDate: `${year}-${pad(month)}-${pad(day)}`, calendar: "solar", birthTime: `${pad(hour)}:${pad(minute)}` });
+  const bj = new Date(Date.UTC(year, month - 1, day, hour - 1, minute));
+  const eight = Solar.fromYmdHms(bj.getUTCFullYear(), bj.getUTCMonth() + 1, bj.getUTCDate(), bj.getUTCHours(), bj.getUTCMinutes(), 0).getLunar().getEightChar();
+  const yun = eight.getYun(gender === "male" ? 1 : 0, 2);
+  const ours = core.daewoon(c, gender, Date.UTC(2026, 0, 1));
+  const refSteps = yun.getDaYun().slice(1, 9).map((step) => step.getGanZhi());
+  const oursSteps = ours.steps.slice(0, 8).map((step) => gz(step.pillar));
+  const refTotal = yun.getStartYear() * 360 + yun.getStartMonth() * 30 + yun.getStartDay();
+  const oursTotal = ours.years * 360 + ours.months * 30 + ours.days;
+  yunChecked += 1;
+  if (ours.forward !== yun.isForward()) fail(`대운 방향 ${year}-${month}-${day} ${hour}:${minute} ${gender}`);
+  if (refSteps.join("") !== oursSteps.join("")) fail(`대운 간지 ${year}-${month}-${day} ${hour}:${minute} ${gender} ${oursSteps} ≠ ${refSteps}`);
+  if (Math.abs(refTotal - oursTotal) > 1) fail(`대운 시작 ${year}-${month}-${day} ${hour}:${minute} ${gender} ${oursTotal} ≠ ${refTotal}`);
+}
+console.log(`대운 ${yunChecked}건 비교`);
+
 // 3) 절기 직전·직후 1분 경계: 한국 표준시 절기 시각 기준으로 월주가 바뀌는지
 const jie = ["小寒", "立春", "惊蛰", "清明", "立夏", "芒种", "小暑", "立秋", "白露", "寒露", "立冬", "大雪"];
 let boundaries = 0;

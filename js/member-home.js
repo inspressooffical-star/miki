@@ -8,8 +8,7 @@
   const actionLink = document.getElementById("home-profile-action");
   const state = document.getElementById("home-profile-state");
   const summary = document.getElementById("home-profile-summary");
-  const cta = document.getElementById("home-hero-cta");
-  if (!accountLink || !actionLink || !state || !summary || !cta) return;
+  if (!accountLink || !actionLink || !state || !summary) return;
 
   client.auth.onAuthStateChange((_event, session) => {
     window.setTimeout(() => {
@@ -26,7 +25,6 @@
   async function loadMemberHome(user) {
     accountLink.querySelector("span:last-child").textContent = "내 명식";
     actionLink.textContent = "명식 등록하기 ↗";
-    cta.textContent = "내 명식 보관함 열기";
     const { data, error } = await client.from("saju_profiles")
       .select("id,name,gender,birth_date,calendar,leap_month,birth_time,is_default")
       .eq("user_id", user.id)
@@ -39,8 +37,7 @@
       return;
     }
     if (!data.length) {
-      sessionStorage.removeItem("mikiSajuResult");
-      sessionStorage.removeItem("mikiSajuProfileName");
+      window.Miki.clearInput(true);
       state.textContent = "명식 미등록";
       summary.textContent = "로그인한 뒤 명식을 등록하면 여기에 네 사주가 보여.";
       return;
@@ -54,8 +51,7 @@
         birthTime: profile.birth_time ? profile.birth_time.slice(0, 5) : ""
       };
       const chart = window.SajuCore.calculate(input);
-      sessionStorage.setItem("mikiSajuResult", JSON.stringify(input));
-      sessionStorage.setItem("mikiSajuProfileName", profile.name);
+      window.Miki.setInput(input, { name: profile.name, gender: profile.gender, source: "account" });
       state.textContent = `${profile.name}${profile.is_default ? " · 기본 명식" : ""}`;
       summary.textContent = `저장된 명식 ${data.length}개 · ${profile.gender === "female" ? "여성" : profile.gender === "male" ? "남성" : "성별 선택 안 함"}`;
       const chartByKey = new Map(chart.pillars.map(({ key, pillar }) => [key, pillar]));
@@ -74,11 +70,9 @@
   }
 
   function renderSignedOut() {
-    sessionStorage.removeItem("mikiSajuResult");
-    sessionStorage.removeItem("mikiSajuProfileName");
+    window.Miki.clearInput(true);
     accountLink.querySelector("span:last-child").textContent = "로그인";
     actionLink.textContent = "로그인하기 ↗";
-    cta.textContent = "로그인하고 명식 등록하기";
     state.textContent = "로그인 후 명식 등록하기";
     summary.textContent = "회원가입 후 명식을 등록하면 언제든 다시 불러올 수 있어요.";
   }

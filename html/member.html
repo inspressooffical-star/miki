@@ -10,28 +10,27 @@
 <body>
   <div class="app member-app">
     <header class="topbar"><div class="topbar-inner">
-      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">☯</span><span>미키사주</span></a>
-      <a class="result-home-link" href="index.html">홈으로</a>
+      <a class="brand" href="index.html" aria-label="미키사주 홈"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5a8.5 8.5 0 0 1 0 17 4.25 4.25 0 0 0 0-8.5 4.25 4.25 0 0 1 0-8.5Z" fill="#D74750"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17 4.25 4.25 0 0 1 0-8.5 4.25 4.25 0 0 0 0-8.5Z" fill="#31518A"/></svg></span><span>미키사주</span></a>
+      <nav class="top-links" aria-label="주요 메뉴"><a href="tojeong.html">토정비결</a><a href="classic-saju.html">정통 사주</a><a href="sal-pul-i.html">살풀이</a><a href="compatibility.html">궁합보기</a></nav>
+      <a class="profile-button profile-link" id="home-member-link" data-site-member-link href="member.html" aria-current="page"><span class="profile-avatar" aria-hidden="true">☘</span><span data-site-member-label>로그인</span></a>
     </div></header>
     <main class="member-main" data-member-app>
       <section class="member-intro"><span class="result-eyebrow">나만의 사주를 안전하게 보관해</span><h1>내 명식 보관함</h1><p>로그인하면 등록한 명식을 저장하고, 다음에도 이어서 볼 수 있어.</p></section>
       <p class="member-message" id="member-message" role="status" aria-live="polite"></p>
       <section class="member-auth-card" id="member-auth-panel">
-        <div class="member-auth-tabs" role="tablist" aria-label="로그인 또는 회원가입">
-          <button class="member-auth-tab is-active" type="button" data-auth-mode="login" aria-selected="true">로그인</button>
-          <button class="member-auth-tab" type="button" data-auth-mode="signup" aria-selected="false">회원가입</button>
+        <h2>로그인하고 명식을 보관해보자</h2>
+        <p>이름과 성별은 가입할 때 한 번만 알려주면 돼. 로그인은 이메일과 비밀번호만 있으면 충분해.</p>
+        <div class="member-auth-buttons">
+          <button class="primary-button" type="button" data-open-auth="login">로그인</button>
+          <button class="secondary-button" type="button" data-open-auth="signup">회원가입</button>
         </div>
-        <form id="member-auth-form">
-          <label class="member-field"><span>이메일</span><input id="member-email" type="email" autocomplete="email" required></label>
-          <label class="member-field"><span>비밀번호</span><input id="member-password" type="password" minlength="8" autocomplete="current-password" required><small>8자 이상 입력해줘.</small></label>
-          <button class="primary-button member-submit" type="submit" id="member-auth-submit">로그인</button>
-        </form>
       </section>
       <section id="member-account-panel" hidden>
         <div class="member-account-heading">
-          <div><span class="mini-kicker" id="member-email-label"></span><h2>저장된 명식</h2></div>
-          <button class="secondary-button" id="member-signout" type="button">로그아웃</button>
+          <div class="member-account-id"><strong id="member-account-name">회원님</strong><span id="member-email-label"></span></div>
+          <div class="member-account-buttons"><button class="text-button" id="member-edit-account" type="button">이름·성별 수정</button><button class="secondary-button" id="member-signout" type="button">로그아웃</button></div>
         </div>
+        <h2 class="member-list-title">저장된 명식</h2>
         <div id="member-profile-list" class="member-profile-list"></div>
         <div class="member-actions">
           <button class="primary-button" id="member-add-profile" type="button">명식 등록하기 <span aria-hidden="true">＋</span></button>
@@ -42,50 +41,50 @@
     <footer><div class="footer-inner"><span class="footer-brand">미키사주</span><span>등록한 명식은 내 계정에서만 볼 수 있어.</span></div></footer>
   </div>
   <dialog id="profile-dialog" class="profile-dialog" aria-labelledby="profile-dialog-title">
-    <form id="profile-form">
-      <div class="dialog-head"><div><span class="mini-kicker">내 계정에 저장할 명식</span><h2 id="profile-dialog-title">명식 등록하기</h2><p>성별과 태어난 정보를 입력해줘.</p></div><button class="close-button" type="button" data-close-profile aria-label="닫기">×</button></div>
-      <label class="member-field"><span>명식 이름</span><input id="profile-name" maxlength="40" placeholder="예: 나, 엄마, 친구" required></label>
-      <span class="form-label">성별</span>
-      <div class="choice-buttons profile-gender" role="group" aria-label="성별 선택">
-        <button class="choice-button is-selected" type="button" data-gender="female" aria-pressed="true">여성</button>
-        <button class="choice-button" type="button" data-gender="male" aria-pressed="false">남성</button>
-        <button class="choice-button" type="button" data-gender="undisclosed" aria-pressed="false">선택 안 함</button>
-      </div>
-      <input id="profile-gender-value" type="hidden" value="female">
-      <span class="form-label">날짜 기준</span>
-      <input id="profile-calendar" type="hidden" value="solar">
-      <div class="choice-buttons" role="group" aria-label="양력 또는 음력 선택">
-        <button class="choice-button is-selected" type="button" data-profile-calendar="solar" aria-pressed="true">양력</button>
-        <button class="choice-button" type="button" data-profile-calendar="lunar" aria-pressed="false">음력</button>
-      </div>
-      <span class="form-label" id="profile-date-label">생년월일 <span class="optional-label">숫자로 입력해줘</span></span>
-      <div class="numeric-date-fields">
-        <label class="numeric-field"><span class="visually-hidden">태어난 해</span><input id="profile-year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="1990" required><span>년</span></label>
-        <label class="numeric-field"><span class="visually-hidden">태어난 달</span><input id="profile-month" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="01" required><span>월</span></label>
-        <label class="numeric-field"><span class="visually-hidden">태어난 날</span><input id="profile-day" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="01" required><span>일</span></label>
-      </div>
-      <label class="leap-month-option" id="profile-leap-label" for="profile-leap"><input id="profile-leap" type="checkbox"><span>윤달에 태어났어요</span></label>
-      <span class="form-label">태어난 시간 <span class="optional-label">(모르면 비워도 괜찮아)</span></span>
-      <input id="profile-time-period" type="hidden" value="am">
-      <div class="birth-time-controls">
-        <div class="choice-buttons time-period-buttons" role="group" aria-label="오전 또는 오후 선택">
-          <button class="choice-button is-selected" type="button" data-profile-period="am" aria-pressed="true">오전</button>
-          <button class="choice-button" type="button" data-profile-period="pm" aria-pressed="false">오후</button>
+    <form id="profile-form" novalidate>
+      <div class="dialog-head"><div><span class="mini-kicker">내 계정에 저장할 명식</span><h2 id="profile-dialog-title">명식 등록하기</h2><p>이 명식의 이름과 성별은 계정 정보와 따로 저장돼.</p></div><button class="close-button" type="button" data-close-profile aria-label="닫기">×</button></div>
+      <label class="member-field"><span>명식 이름</span><input name="name" maxlength="40" placeholder="예: 나, 엄마, 친구" autocomplete="off"></label>
+      <p class="field-error" data-error-for="name" role="alert" hidden></p>
+      <fieldset class="auth-gender"><legend class="form-label">성별</legend>
+        <div class="choice-buttons profile-gender">
+          <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="female"><span>여성</span></label>
+          <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="male"><span>남성</span></label>
+          <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="undisclosed"><span>선택 안 함</span></label>
         </div>
-        <div class="numeric-time-fields">
-          <label class="numeric-field"><span class="visually-hidden">태어난 시</span><input id="profile-hour" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="09"><span>시</span></label>
-          <span class="time-separator" aria-hidden="true">:</span>
-          <label class="numeric-field"><span class="visually-hidden">태어난 분</span><input id="profile-minute" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" placeholder="30"><span>분</span></label>
-        </div>
-      </div>
-      <label class="leap-month-option profile-default-option"><input id="profile-default" type="checkbox"><span>기본 명식으로 설정하기</span></label>
+      </fieldset>
+      <p class="field-error" data-error-for="gender" role="alert" hidden></p>
+      <div id="profile-birth"></div>
+      <label class="leap-month-option profile-default-option"><input name="isDefault" type="checkbox"><span>기본 명식으로 설정하기</span></label>
+      <p class="form-error" data-form-error role="alert" hidden></p>
       <button class="primary-button dialog-submit" type="submit">내 명식 저장하기</button>
+    </form>
+  </dialog>
+  <dialog id="account-dialog" class="profile-dialog" aria-labelledby="account-dialog-title">
+    <form id="account-form" novalidate>
+      <div class="dialog-head"><div><span class="mini-kicker">계정 정보</span><h2 id="account-dialog-title">이름·성별 수정</h2><p>계정 이름은 저장한 명식의 이름과 따로 관리돼.</p></div><button class="close-button" type="button" data-close-account aria-label="닫기">×</button></div>
+      <label class="member-field"><span>이름</span><input name="name" maxlength="40" autocomplete="name"></label>
+      <p class="field-error" data-error-for="name" role="alert" hidden></p>
+      <fieldset class="auth-gender"><legend class="form-label">성별</legend>
+        <div class="choice-buttons profile-gender">
+          <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="female"><span>여성</span></label>
+          <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="male"><span>남성</span></label>
+          <label class="choice-button"><input class="visually-hidden" type="radio" name="gender" value="undisclosed"><span>선택 안 함</span></label>
+        </div>
+      </fieldset>
+      <p class="field-error" data-error-for="gender" role="alert" hidden></p>
+      <p class="form-error" data-form-error role="alert" hidden></p>
+      <button class="primary-button dialog-submit" type="submit">저장하기</button>
     </form>
   </dialog>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../js/supabase-config.js"></script>
   <script src="../js/supabase-client.js"></script>
-  <script src="../js/saju-terms.js"></script><script src="../js/saju-lunar.js"></script><script src="../js/saju-core.js"></script>
+  <script src="../js/saju-terms.js"></script>
+  <script src="../js/saju-lunar.js"></script>
+  <script src="../js/saju-core.js"></script>
+  <script src="../js/miki-common.js"></script>
+  <script src="../js/miki-account.js"></script>
+  <script src="../js/birth-fields.js"></script>
   <script src="../js/member-app.js"></script>
 </body>
 </html>
