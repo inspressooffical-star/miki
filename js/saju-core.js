@@ -36,6 +36,7 @@
     수: { title: "흐르고 살피는 힘", meaning: "생각, 관찰, 지혜와 유연함" }
   };
   const jieTerms = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22];
+  const jieNames = ["소한", "입춘", "경칩", "청명", "입하", "망종", "소서", "입추", "백로", "한로", "입동", "대설"];
   const termCache = new Map();
   const monthNames = {
     "正月": 1, "一月": 1, "二月": 2, "三月": 3, "四月": 4, "五月": 5, "六月": 6,
@@ -50,16 +51,18 @@
     return ((value % divisor) + divisor) % divisor;
   }
 
-  function parseDate(value) {
+  function parseDate(value, isLunar) {
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || "");
     if (!match) throw new Error("생년월일을 다시 확인해줘.");
     const year = Number(match[1]);
     const month = Number(match[2]);
     const day = Number(match[3]);
+    // 음력은 달마다 29일 또는 30일이라 양력 달력으로 검사하지 않고 실제 변환 결과로 확인한다.
     const check = new Date(Date.UTC(year, month - 1, day, 12));
-    if (check.getUTCFullYear() !== year || check.getUTCMonth() !== month - 1 || check.getUTCDate() !== day) {
-      throw new Error("달력에 있는 날짜를 입력해줘.");
-    }
+    const valid = isLunar
+      ? month >= 1 && month <= 12 && day >= 1 && day <= 30
+      : check.getUTCFullYear() === year && check.getUTCMonth() === month - 1 && check.getUTCDate() === day;
+    if (!valid) throw new Error("달력에 있는 날짜를 입력해줘.");
     if (year < 1901 || year > 2099) throw new Error("현재는 1901년부터 2099년까지의 생년월일을 계산할 수 있어.");
     return { year, month, day };
   }
@@ -71,11 +74,36 @@
     return values;
   }
 
+  function tabulatedSolarDate(lunar, isLeapMonth) {
+    const row = window.MikiLunarTable && window.MikiLunarTable[lunar.year];
+    if (!row) return null;
+    const leapMonth = Number(row.slice(0, 2));
+    const lengths = row.slice(6);
+    let stamp = Date.UTC(lunar.year, Number(row.slice(2, 4)) - 1, Number(row.slice(4, 6)), 12);
+    for (let index = 0; index < lengths.length; index += 1) {
+      // 윤달이 있으면 그 달 번호 바로 뒤에 한 칸이 더 들어간다.
+      const monthNumber = leapMonth && index >= leapMonth ? index : index + 1;
+      const isLeap = leapMonth > 0 && index === leapMonth;
+      const days = lengths[index] === "1" ? 30 : 29;
+      if (monthNumber === lunar.month && isLeap === Boolean(isLeapMonth)) {
+        if (lunar.day > days) throw new Error(`그 음력 달은 ${days}일까지만 있어. 날짜를 확인해줘.`);
+        const date = new Date(stamp + (lunar.day - 1) * 86400000);
+        return { year: date.getUTCFullYear(), month: date.getUTCMonth() + 1, day: date.getUTCDate() };
+      }
+      stamp += days * 86400000;
+    }
+    throw new Error(isLeapMonth
+      ? "그 해에는 입력한 윤달이 없어. 윤달 선택을 확인해줘."
+      : "입력한 음력 날짜를 찾지 못했어. 날짜를 확인해줘.");
+  }
+
   function toSolarDate(lunarDate, isLeapMonth) {
+    const lunar = parseDate(lunarDate, true);
+    const tabulated = tabulatedSolarDate(lunar, isLeapMonth);
+    if (tabulated) return tabulated;
     if (!chineseCalendar || typeof chineseCalendar.formatToParts !== "function") {
       throw new Error("이 브라우저에서는 음력 날짜 변환을 지원하지 않아. 양력을 선택해줘.");
     }
-    const lunar = parseDate(lunarDate);
     const start = Date.UTC(lunar.year, 0, 1, 12);
     const end = Date.UTC(lunar.year + 2, 0, 1, 12);
     for (let stamp = start; stamp < end; stamp += 86400000) {
@@ -111,9 +139,22 @@
     return mod(meanLongitude + equationOfCenter - 0.00569 - 0.00478 * Math.sin(omega), 360);
   }
 
+  // 1900~2100년은 검증된 절기 표(js/saju-terms.js)를 쓰고, 표가 없을 때만 천문 근사식으로 계산한다.
+  function tabulatedTerm(year, index) {
+    const row = window.MikiSolarTerms && window.MikiSolarTerms[year];
+    if (!row || index % 2 !== 0) return null;
+    const cell = row.slice((index / 2) * 8, (index / 2) * 8 + 8);
+    return Date.UTC(year, Number(cell.slice(0, 2)) - 1, Number(cell.slice(2, 4)), Number(cell.slice(4, 6)) - 9, Number(cell.slice(6, 8)));
+  }
+
   function solarTerm(year, index) {
     const key = `${year}-${index}`;
     if (termCache.has(key)) return termCache.get(key);
+    const tabulated = tabulatedTerm(year, index);
+    if (tabulated !== null) {
+      termCache.set(key, tabulated);
+      return tabulated;
+    }
     const targetLongitude = mod(285 + index * 15, 360);
     const dayMilliseconds = 86400000;
     let estimate = Date.UTC(year, 0, 5, 12) + index * (365.2422 / 24) * dayMilliseconds;
@@ -146,7 +187,7 @@
   }
 
   function calculate(input) {
-    const enteredDate = parseDate(input.birthDate);
+    const enteredDate = parseDate(input.birthDate, input.calendar === "lunar");
     const solarDate = input.calendar === "lunar"
       ? toSolarDate(input.birthDate, input.leapMonth)
       : enteredDate;
@@ -192,6 +233,30 @@
       counts[pillar.branch.element] += 1;
     });
 
+    // 태어난 시간을 모르면 정오로 계산하므로, 그날 절기가 바뀌면 연주·월주가 시각에 따라 달라질 수 있다.
+    let termBoundary = null;
+    if (!hasTime) {
+      [solarDate.year - 1, solarDate.year, solarDate.year + 1].some((termYear) => jieTerms.some((index) => {
+        const stamp = solarTerm(termYear, index);
+        if (stamp === undefined || Number.isNaN(stamp)) return false;
+        const kst = new Date(stamp + 9 * 3600000);
+        if (kst.getUTCFullYear() === solarDate.year && kst.getUTCMonth() + 1 === solarDate.month && kst.getUTCDate() === solarDate.day) {
+          termBoundary = {
+            name: jieNames[index / 2], isLiChun: index === 2,
+            hour: kst.getUTCHours(), minute: kst.getUTCMinutes()
+          };
+          return true;
+        }
+        return false;
+      }));
+    }
+    const timeCaution = hasTime && (solarDate.year < 1912 ||
+      (solarDate.year >= 1948 && solarDate.year <= 1951) ||
+      (solarDate.year >= 1954 && solarDate.year <= 1961) ||
+      (solarDate.year >= 1987 && solarDate.year <= 1988))
+      ? "이 시기에는 한국의 표준시나 서머타임이 지금과 달랐던 구간이 있어. 입력한 시각을 그대로 한국 표준시(UTC+9)로 계산했고 당시 시각 보정은 적용하지 않았어. 시주가 경계에 가까우면 만세력 기준에 따라 달라질 수 있어."
+      : "";
+
     return {
       solarDate,
       enteredDate,
@@ -199,6 +264,10 @@
       leapMonth: Boolean(input.leapMonth),
       birthTime: hasTime ? input.birthTime : "",
       hasTime,
+      termBoundary,
+      timeCaution,
+      monthTerm: { year: monthTerm.year, index: monthTerm.index, time: monthTerm.time },
+      pillarYear,
       dayChangedAtZi: hasTime && hour === 23,
       yearPillar,
       monthPillar,
@@ -329,6 +398,10 @@
     interpretations,
     annualPillar,
     salSigns,
+    solarTerm,
+    sexagenary,
+    tenGod,
+    jieNames,
     stems,
     branches,
     elements,
