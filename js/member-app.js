@@ -107,8 +107,9 @@
 
   document.getElementById("profile-form").addEventListener("submit", async (event) => {
     event.preventDefault();
-    const submit = event.currentTarget.querySelector("[type='submit']");
-    if (!event.currentTarget.reportValidity()) return;
+    const form = event.currentTarget;
+    const submit = form.querySelector("[type='submit']");
+    if (!form.reportValidity()) return;
     const hourValue = document.getElementById("profile-hour").value;
     const minuteValue = document.getElementById("profile-minute").value;
     if (Boolean(hourValue) !== Boolean(minuteValue)) {
@@ -170,7 +171,7 @@
       }).select().single();
       if (error) throw error;
       profileDialog.close();
-      event.currentTarget.reset();
+      form.reset();
       resetProfileChoices();
       await refreshAccount();
       if (data.is_default) persistSelectedProfile(data);
